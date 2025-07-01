@@ -1,10 +1,10 @@
 # MedMCQA Chatbot
 
-The chatbot is designed to answer **medical multiple-choice questions (MCQs)** with clear explanations that is **grounded only in the dataset**. It uses **LangGraph** to define the flow, **FAISS** for fast semantic retrieval, and **LLM explanation cleanup** via **Groq’s llama3**
+The chatbot is designed to answer **medical multiple-choice questions (MCQs)** with clear explanations that is **grounded only in the dataset**. It uses **LangGraph** to define the flow, **FAISS** for fast semantic retrieval and **LLM explanation cleanup** via **Groq’s llama3**
 
 ### Working Chatbot Interface
 ![Screenshot 2025-07-01 202649](https://github.com/user-attachments/assets/0e9decdf-3a37-4d10-9c42-f24aecb22cd1)
-
+![Screenshot 2025-07-01 200027](https://github.com/user-attachments/assets/c1c8c141-dc55-411e-8eaf-92ee35afbf23)
 ### Chatbot Declining Out-of-Dataset Queries
 ![Screenshot 2025-07-01 200059](https://github.com/user-attachments/assets/bdb6d227-21bb-40af-a0a4-7b188c1d4d0a)
 

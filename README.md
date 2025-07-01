@@ -75,7 +75,14 @@ The LangGraph structure in this chatbot is designed to keep the conversation gro
 
 The `respond` node formats the output with the question, options, correct answer, and a cleaned explanation using the Llama3 model via Groq. Explanation cleanup is offloaded to the LLM, while all factual content remains dataset-based. This structure ensures safety, readability and easy extensibility.
 
+### LLM choice:
+The LLM used in this project is `llama3-70b-8192`, accessed via Groq’s high-speed API. I chose this model because it offers a **strong balance between performance and cost**, and Groq provides **fast inference** for free, making it ideal for real-time chatbot applications. In this chatbot, the LLM is used only to refine the explanation field from the Medmcqa dataset. It cleans up noisy text like "Ref." or "Reference" improving readability while preserving the medical accuracy already present in the dataset. This keeps the chatbot grounded and accurate.
 
+### FAISS Vector database:
+I chose FAISS as the vector database because it's lightweight, fast and works well for local setups. While I initially explored using Weaviate for its advanced features but it consumed too much memory for the large MedMCQA dataset. FAISS allowed me to efficiently store and search over 180,000 medical question embeddings using minimal resources. It pairs well with a simple metadata map, making retrieval both accurate and fast without the overhead of a full database server.
+
+### Hallucination Prevention Strategy
+To make sure the chatbot only answers questions grounded in the MedMCQA dataset, I implemented multiple layers of filtering in the search logic. First, I use exact `string normalization and matching` to catch any direct question hits. If there's no exact match, the system moves to `semantic search` using sentence embeddings from the `BAAI/bge-small-en model`. But even then, I added a `score threshold` of **0.88** to ensure only highly similar vector matches are considered. On top of that, I included a `Jaccard similarity `check based on word overlap between the query and candidate questions, requiring at least** 25 percent** overlap.This makes my chatbot hallucination-free and ensures it responds strictly based on the MedMCQA dataset.
 
 
 

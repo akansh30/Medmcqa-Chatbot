@@ -45,28 +45,37 @@ source venv\Scripts\activate
 ```bash
 pip install -r requirements.txt
 ```
-4.Add Your Dataset
+### 4.Add Your Dataset
 Download the [MedMCQA dataset](https://huggingface.co/datasets/openlifescienceai/medmcqa) and place it in data folder:
 ```bash
 data/medmcqa_raw.json
 ```
-5. Build FAISS Index
+### 5.Build FAISS Index
 This script converts your dataset into a searchable format.
 ```bash
 python faiss_ingest.py
 ```
 It will create: `faiss_index/index.faiss` and `faiss_index/id_map.pkl`
 
-6. LLM Setup
+### 6.LLM Setup
 Sign up at <https://console.groq.com> and create an API key.
 Create a `.env` file:
 ```bash
 GROQ_API_KEY=your_api_key_here
 ```
-7. Run the Chatbot ( Streamlit Interface)
+### 7.Run the Chatbot (Streamlit Interface)
 ```bash
 streamlit run chat_ui.py
 ```
+## Justification of Design Choices:
+
+### LangGraph structure:
+                       `START → retrieve → route → (respond or fallback) → END`
+The LangGraph structure in this chatbot is designed to keep the conversation grounded strictly in the MedMCQA dataset. It follows a clear three-step flow: the `retrieve` node uses FAISS to search for the most relevant question, then a `route` function checks if a result exists and decides whether to answer (respond) or gracefully decline (`fallback`). This ensures the bot only responds when confident and avoids hallucinating answers outside the dataset.
+
+The `respond` node formats the output with the question, options, correct answer, and a cleaned explanation using the Llama3 model via Groq. Explanation cleanup is offloaded to the LLM, while all factual content remains dataset-based. This structure ensures safety, readability and easy extensibility.
+
+
 
 
 

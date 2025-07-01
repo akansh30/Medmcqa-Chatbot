@@ -1,0 +1,8 @@
+faiss-cpu 
+langchain 
+sentence-transformers 
+tiktoken 
+openai
+langgraph
+streamlit
+python-dotenv
